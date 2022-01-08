@@ -7,7 +7,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(cotire)
 
-add_definitions(-DALT_VOICE_LIB)
+add_definitions(-DALT_LIB_STATIC)
 
 file(GLOB_RECURSE PROJECT_SOURCE_FILES "src/*.h" "src/*.cpp" "include/*.h")
 
