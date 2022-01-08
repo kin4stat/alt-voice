@@ -2,32 +2,11 @@ cmake_minimum_required (VERSION 2.8)
 
 project(alt-voice)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tools/cotire/CMake)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-include(cotire)
+include("tools/cotire/CMake/cotire.cmake")
 
 add_definitions(-DALT_LIB_STATIC)
 
 file(GLOB_RECURSE PROJECT_SOURCE_FILES "src/*.h" "src/*.cpp" "include/*.h")
-
-macro(GroupSources curdir groupindex)
-  file(GLOB children RELATIVE ${curdir} ${curdir}/*)
-
-  foreach(child ${children})
-    if(IS_DIRECTORY ${curdir}/${child})
-      GroupSources(${curdir}/${child} ${groupindex}/${child})
-    else()
-
-      string(REPLACE "/" "\\" groupname ${groupindex})
-
-      source_group(${groupname} FILES ${curdir}/${child})
-    endif()
-  endforeach()
-endmacro()
-
-GroupSources(${PROJECT_SOURCE_DIR}/src "Source Files")
-GroupSources(${PROJECT_SOURCE_DIR}/include "Include")
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/src
@@ -63,8 +42,6 @@ endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
   CXX_STANDARD 17
-  RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PROJECT_SOURCE_DIR}/bin/Debug/"
-  RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_SOURCE_DIR}/bin/Release/"
 )
 
 cotire(${PROJECT_NAME})
