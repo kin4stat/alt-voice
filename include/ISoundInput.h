@@ -1,6 +1,7 @@
 #pragma once
+#include <functional>
 
-using OnVoiceCallback = void(*)(const void* buffer, int size, float micLevel);
+using OnVoiceCallback = std::function<void(const void* buffer, int size, float micLevel)>;
 
 class ISoundInput
 {
