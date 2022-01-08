@@ -7,13 +7,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(cotire)
 
-if (MSVC)
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT /Zi")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-endif()
-
 add_definitions(-DALT_VOICE_LIB)
-add_definitions(-DAL_LIBTYPE_STATIC)
 
 file(GLOB_RECURSE PROJECT_SOURCE_FILES "src/*.h" "src/*.cpp" "include/*.h")
 
@@ -38,25 +32,22 @@ GroupSources(${PROJECT_SOURCE_DIR}/include "Include")
 include_directories(
   ${PROJECT_SOURCE_DIR}/src
   ${PROJECT_SOURCE_DIR}/include
-  ${PROJECT_SOURCE_DIR}/vendor/openal/include/
-  ${PROJECT_SOURCE_DIR}/vendor/opus/include/
 )
 
 add_library(
-  ${PROJECT_NAME} SHARED
+  ${PROJECT_NAME} STATIC
   ${PROJECT_SOURCE_FILES}
 )
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/opus ${PROJECT_SOURCE_DIR}/libs/${CMAKE_BUILD_TYPE}/opus)
-set(LIBTYPE STATIC)
-add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/openal ${PROJECT_SOURCE_DIR}/libs/${CMAKE_BUILD_TYPE}/openal)
+find_package(Opus CONFIG REQUIRED)
+find_package(OpenAL CONFIG REQUIRED)
 
 if (WIN32)
-target_link_libraries(${PROJECT_NAME} WinMM.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE WinMM.lib)
 endif()
 
-target_link_libraries(${PROJECT_NAME} OpenAL)
-target_link_libraries(${PROJECT_NAME} opus)
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenAL::OpenAL)
+target_link_libraries(${PROJECT_NAME} PRIVATE Opus::opus)
 
 #Tests
 if(BUILD_TESTS)
