@@ -10,7 +10,7 @@
 #include "ISoundInput.h"
 #include "CRingBuffer.h"
 
-#define FRAME_SIZE_OPUS 480
+#define FRAME_SIZE_OPUS 960
 #define MAX_PACKET_SIZE 32768
 
 using Sample = float;
