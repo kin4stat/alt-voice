@@ -27,6 +27,7 @@ class CSoundInput: public ISoundInput
 	OpusEncoder* enc = nullptr;
 
 	OnVoiceCallback cb = nullptr;
+	OnRawVoiceCb raw_cb = nullptr;
 	RingBuffer<Sample, 100000> _ringBuffer;
 
 	ALCdevice* inputDevice = nullptr;
@@ -47,5 +48,6 @@ public:
 	void ChangeMicGain(float gain) override;
 	bool ChangeDevice(char* deviceName) override;
 	void RegisterCallback(OnVoiceCallback callback) override;
+	void RegisterRawCallback(OnRawVoiceCb callback) override;
 };
 

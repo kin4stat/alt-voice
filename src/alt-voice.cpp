@@ -36,7 +36,7 @@ char * GetNextDevice(char ** enumerator)
 
 	char* deviceName = *enumerator;
 
-	if (deviceName && deviceName != '\0')
+	if (deviceName && *deviceName != '\0')
 	{
 		size_t devNameLength = strlen(deviceName);
 		*enumerator += (devNameLength + 1);

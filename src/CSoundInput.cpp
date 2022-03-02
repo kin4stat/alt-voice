@@ -35,7 +35,9 @@ void CSoundInput::OnVoiceInput()
 				if (transferBuffer[i] > micLevel)
 					micLevel = transferBuffer[i];
 			}
-			
+			if (raw_cb) {
+				raw_cb(transferBuffer, micLevel);
+			}
 			{
 				std::unique_lock<std::mutex> _micGainLock(micGainMutex);
 				for (uint32_t i = 0; i < _framesPerBuffer; ++i)
@@ -142,4 +144,8 @@ bool CSoundInput::ChangeDevice(char * deviceName)
 void CSoundInput::RegisterCallback(OnVoiceCallback callback)
 {
 	cb = callback;
+}
+
+void CSoundInput::RegisterRawCallback(OnRawVoiceCb callback) {
+	raw_cb = callback;
 }

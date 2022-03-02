@@ -4,6 +4,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alext.h>
+#include <queue>
 
 #include "ISoundOutput.h"
 #include "VoiceError.h"

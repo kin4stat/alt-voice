@@ -2,8 +2,6 @@ cmake_minimum_required (VERSION 3.16)
 
 project(alt-voice)
 
-include("tools/cotire/CMake/cotire.cmake")
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_definitions(-DALT_LIB_STATIC)
@@ -66,5 +64,3 @@ endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES
   CXX_STANDARD 17
 )
-
-cotire(${PROJECT_NAME})

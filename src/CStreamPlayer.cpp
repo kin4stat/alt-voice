@@ -3,12 +3,12 @@
 
 #include "CVoiceException.h"
 
-CSoundOutput* CStreamPlayer::soundOutput = nullptr;
 ALfloat CStreamPlayer::zeroFloatVector[3] = { 0.f, 0.f, 0.f };
 
 
-CStreamPlayer::CStreamPlayer()
+CStreamPlayer::CStreamPlayer(CSoundOutput* ptr)
 {
+	soundOutput = ptr;
 	alGenBuffers(NUM_BUFFERS, buffers);
 	for (uint16_t i = 0; i < NUM_BUFFERS; ++i)
 		freeBuffers.push(buffers[i]);
@@ -51,7 +51,7 @@ bool CStreamPlayer::PushOpusBuffer(const void * data, int count)
 	if (frame_size < 0)
 		return false;
 
-	ALfloat finalGain = extraGain + soundOutput->extraGain;
+	ALfloat finalGain = extraGain * soundOutput->extraGain;
 	if (finalGain != 1.f)
 	{
 		for (int i = 0; i < frame_size; ++i)

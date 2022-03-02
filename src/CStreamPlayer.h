@@ -22,7 +22,6 @@ using Sample = ALfloat;
 class CStreamPlayer: public IStreamPlayer
 {
 	friend CSoundOutput;
-	static CSoundOutput* soundOutput;
 	static ALfloat zeroFloatVector[3];
 
 	RingBuffer<Sample, RING_BUFFER_SIZE> ringBuffer;
@@ -44,6 +43,7 @@ class CStreamPlayer: public IStreamPlayer
 	ALfloat extraGain = 0.f;
 
 	OpusDecoder* dec = nullptr;
+	class CSoundOutput* soundOutput = nullptr;
 
 	std::chrono::time_point<std::chrono::system_clock> lastSourceRequestTime;
 
@@ -54,7 +54,7 @@ class CStreamPlayer: public IStreamPlayer
 
 	bool disableSpatial = false;
 public:
-	CStreamPlayer();
+	CStreamPlayer(class CSoundOutput*);
 	~CStreamPlayer();
 
 	bool PushOpusBuffer(const void * data, int count) override;

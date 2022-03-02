@@ -30,8 +30,6 @@ CSoundOutput::CSoundOutput(char* deviceName, int sampleRate, int sourcesCount) :
 
 	for (uint8_t i = 0; i < sourcesCount; ++i)
 		freeSources.push(sources[i]);
-
-	CStreamPlayer::soundOutput = this;
 }
 
 
@@ -43,6 +41,7 @@ CSoundOutput::~CSoundOutput()
 
 	alDeleteSources(_sourcesCount, sources);
 	delete[] sources;
+
 
 	alcMakeContextCurrent(NULL);
 	alcDestroyContext(ctx);
@@ -88,7 +87,7 @@ IStreamPlayer* CSoundOutput::CreateStreamPlayer()
 {
 	try
 	{
-		CStreamPlayer* nextStreamPlayer = new CStreamPlayer();
+		CStreamPlayer* nextStreamPlayer = new CStreamPlayer(this);
 		_streamPlayers.push_back(nextStreamPlayer);
 		return (IStreamPlayer*)nextStreamPlayer;
 	}
